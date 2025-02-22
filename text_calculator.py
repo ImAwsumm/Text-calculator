@@ -15,6 +15,8 @@ for j in equation:
         math_phrase.append(float(o))
         math_phrase.append(j)
         n = []
+    elif j == " ":
+        continue
     else:
         n.append(j)
 # Adding the last number
