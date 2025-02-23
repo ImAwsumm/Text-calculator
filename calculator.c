@@ -12,69 +12,86 @@ GtkWidget *result_label;
 
 // Function to process the input equation
 double calculate(const char *equation) {
-    char math_phrase[MAX_EXPR_LEN];
-    strcpy(math_phrase, equation);
-    
+    // Arrays to store numbers and operators
+    double numbers[MAX_EXPR_LEN];
+    char operators[MAX_EXPR_LEN];
+    int num_count = 0, op_count = 0;
+
+    // Copy equation to avoid modifying the original input
+    char eq[MAX_EXPR_LEN];
+    strcpy(eq, equation);
+
     // Time start
     clock_t start = clock();
     
-    // Handle multiplication and division first
-    double muldiv_lst[MAX_EXPR_LEN];
-    char operators[MAX_EXPR_LEN];
-    int num_count = 0, op_count = 0;
-    
-    // Split the string into numbers and operators
-    char *token = strtok(math_phrase, " ");
+    // Tokenize the input string by spaces
+    char *token = strtok(eq, " ");
     while (token != NULL) {
+        // If the token is a number
         if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
-            muldiv_lst[num_count++] = atof(token);
-        } else {
-            operators[op_count++] = token[0];
+            numbers[num_count++] = atof(token); // Convert string to double and store
+        } 
+        // If the token is an operator
+        else if (strchr("+-*/", token[0]) != NULL) {
+            operators[op_count++] = token[0]; // Store operator
         }
         token = strtok(NULL, " ");
     }
-    
-    // Multiplication and division first
+
+    // First pass: handle multiplication and division
     for (int i = 0; i < op_count; i++) {
         if (operators[i] == '*' || operators[i] == '/') {
             if (operators[i] == '*') {
-                muldiv_lst[i] *= muldiv_lst[i + 1];
+                numbers[i] *= numbers[i + 1];
             } else if (operators[i] == '/') {
-                if (muldiv_lst[i + 1] != 0) {
-                    muldiv_lst[i] /= muldiv_lst[i + 1];
+                if (numbers[i + 1] != 0) {
+                    numbers[i] /= numbers[i + 1];
                 } else {
                     printf("Error: Division by zero!\n");
                     return 0;
                 }
             }
+
             // Shift elements
             for (int j = i + 1; j < num_count - 1; j++) {
-                muldiv_lst[j] = muldiv_lst[j + 1];
+                numbers[j] = numbers[j + 1];
             }
             num_count--;
+            
             for (int j = i; j < op_count - 1; j++) {
                 operators[j] = operators[j + 1];
             }
             op_count--;
-            i--; // recheck same position
+            i--; 
+            
+            // Recheck current position
         }
     }
+
+    // Second pass: handle addition and subtraction
+    double result = numbers[0];
     
-    // Handle addition and subtraction
-    double result = muldiv_lst[0];
+    // Start with the first number
     for (int i = 0; i < op_count; i++) {
         if (operators[i] == '+') {
-            result += muldiv_lst[i + 1];
+            result += numbers[i + 1];  
+            
+            // Add the next number
         } else if (operators[i] == '-') {
-            result -= muldiv_lst[i + 1];
+            
+            result -= numbers[i + 1];
+            // Subtract the next number
         }
     }
-    
-    // Time end
+
+    // end the time
     clock_t end = clock();
     double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Result: %f\n", result);
     printf("Time: %f seconds\n", time_taken);
+
+    // send the time in the terminal because you wanna flex how good your computer is :)
+
     return result;
 }
 
@@ -109,7 +126,10 @@ void create_window() {
     gtk_grid_attach(GTK_GRID(grid), button, 0, 1, 1, 1);
 
     label = gtk_label_new("Result: ");
-    result_label = label;  // Store the label in a global variable
+    result_label = label;  
+    
+    // Store the label in a global variable
+    
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
 
     gtk_widget_show_all(window);
