@@ -7,6 +7,9 @@
 
 #define MAX_EXPR_LEN 256
 
+// Global label pointer to update the result
+GtkWidget *result_label;
+
 // Function to process the input equation
 double calculate(const char *equation) {
     char math_phrase[MAX_EXPR_LEN];
@@ -81,7 +84,7 @@ void on_calculate_button_clicked(GtkWidget *widget, gpointer data) {
     double result = calculate(expression);
     char result_text[MAX_EXPR_LEN];
     snprintf(result_text, sizeof(result_text), "Result: %.2f", result);
-    gtk_label_set_text(GTK_LABEL(gtk_widget_get_parent(widget)), result_text);
+    gtk_label_set_text(GTK_LABEL(result_label), result_text);
 }
 
 // Function to create the main window
@@ -106,6 +109,7 @@ void create_window() {
     gtk_grid_attach(GTK_GRID(grid), button, 0, 1, 1, 1);
 
     label = gtk_label_new("Result: ");
+    result_label = label;  // Store the label in a global variable
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
 
     gtk_widget_show_all(window);
