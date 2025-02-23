@@ -62,25 +62,20 @@ double calculate(const char *equation) {
                 operators[j] = operators[j + 1];
             }
             op_count--;
-            i--; 
-            
-            // Recheck current position
+            i--; // Recheck current position
         }
     }
 
     // Second pass: handle addition and subtraction
-    double result = numbers[0];
     
-    // Start with the first number
+    double result = numbers[0];  // Start with the first number
     for (int i = 0; i < op_count; i++) {
         if (operators[i] == '+') {
-            result += numbers[i + 1];  
             
-            // Add the next number
+            result += numbers[i + 1];  // Add the next number
+            
         } else if (operators[i] == '-') {
-            
-            result -= numbers[i + 1];
-            // Subtract the next number
+            result -= numbers[i + 1];  // Subtract the next number
         }
     }
 
@@ -89,9 +84,8 @@ double calculate(const char *equation) {
     double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Result: %f\n", result);
     printf("Time: %f seconds\n", time_taken);
-
-    // send the time in the terminal because you wanna flex how good your computer is :)
-
+            // send the time in the terminal because you wanna flex how good your computer is :)
+    
     return result;
 }
 
@@ -126,10 +120,7 @@ void create_window() {
     gtk_grid_attach(GTK_GRID(grid), button, 0, 1, 1, 1);
 
     label = gtk_label_new("Result: ");
-    result_label = label;  
-    
-    // Store the label in a global variable
-    
+    result_label = label;  // Store the label in a global variable
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
 
     gtk_widget_show_all(window);
