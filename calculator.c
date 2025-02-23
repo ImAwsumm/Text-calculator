@@ -10,6 +10,11 @@
 // Global label pointer to update the result
 GtkWidget *result_label;
 
+
+//  ### Warning **This calculator is smarter than your phone's calculator because it's an awsum calculator and no other calculator is moAr awsum than mine**
+
+
+
 // Function to process the input equation
 double calculate(const char *equation) {
     // Arrays to store numbers and operators
@@ -70,9 +75,11 @@ double calculate(const char *equation) {
     // Second pass: handle addition and subtraction
     double result = numbers[0];  // Start with the first number
     for (int i = 0; i < op_count; i++) {
+        
         if (operators[i] == '+') {
             result += numbers[i + 1];  // Add the next number
         } else if (operators[i] == '-') {
+            
             result -= numbers[i + 1];  // Subtract the next number
         }
     }
@@ -128,4 +135,6 @@ void create_window() {
 int main(int argc, char *argv[]) {
     create_window();
     return 0;
+
+    //It's all fixed now !! :)
 }
