@@ -23,14 +23,14 @@ double calculate(const char *equation) {
 
     // Time start
     clock_t start = clock();
-    
+
     // Tokenize the input string by spaces
     char *token = strtok(eq, " ");
     while (token != NULL) {
         // If the token is a number
         if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
             numbers[num_count++] = atof(token); // Convert string to double and store
-        } 
+        }
         // If the token is an operator
         else if (strchr("+-*/", token[0]) != NULL) {
             operators[op_count++] = token[0]; // Store operator
@@ -57,12 +57,13 @@ double calculate(const char *equation) {
                 numbers[j] = numbers[j + 1];
             }
             num_count--;
-            
+
+            // Shift operators
             for (int j = i; j < op_count - 1; j++) {
                 operators[j] = operators[j + 1];
             }
             op_count--;
-            i--; // Recheck current position
+            i--; // Recheck the current position
         }
     }
 
@@ -81,8 +82,7 @@ double calculate(const char *equation) {
     double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Result: %f\n", result);
     printf("Time: %f seconds\n", time_taken);
-        // send the time in the terminal because you wanna flex how good your computer is :)
-
+        // // send the time in the terminal because you wanna flex how good your computer is :)
     
     return result;
 }
