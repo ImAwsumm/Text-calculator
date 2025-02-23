@@ -40,6 +40,8 @@ while i < len(muldiv_lst):
         print(n)
     elif muldiv_lst[i] == "/":
         print("/")
+        if muldiv_lst[i+1] == 0:
+            raise Exception("Sorry, cannot divide by zero")
         n /= muldiv_lst[i+1]
         print(n)
     else:
