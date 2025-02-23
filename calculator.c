@@ -52,7 +52,7 @@ double calculate(const char *equation) {
                 }
             }
 
-            // Shift elements
+            // Shift elements after operation
             for (int j = i + 1; j < num_count - 1; j++) {
                 numbers[j] = numbers[j + 1];
             }
@@ -67,24 +67,22 @@ double calculate(const char *equation) {
     }
 
     // Second pass: handle addition and subtraction
-    
     double result = numbers[0];  // Start with the first number
     for (int i = 0; i < op_count; i++) {
         if (operators[i] == '+') {
-            
             result += numbers[i + 1];  // Add the next number
-            
         } else if (operators[i] == '-') {
             result -= numbers[i + 1];  // Subtract the next number
         }
     }
 
-    // end the time
+    // End the time
     clock_t end = clock();
     double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Result: %f\n", result);
     printf("Time: %f seconds\n", time_taken);
-            // send the time in the terminal because you wanna flex how good your computer is :)
+        // send the time in the terminal because you wanna flex how good your computer is :)
+
     
     return result;
 }
