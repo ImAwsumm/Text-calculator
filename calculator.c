@@ -30,7 +30,52 @@ double calculate(const char *equation) {
         }
         token = strtok(NULL, " ");
     }
+    
+    // Multiplication and division first
+    for (int i = 0; i < op_count; i++) {
+        if (operators[i] == '*' || operators[i] == '/') {
+            if (operators[i] == '*') {
+                muldiv_lst[i] *= muldiv_lst[i + 1];
+            } else if (operators[i] == '/') {
+                if (muldiv_lst[i + 1] != 0) {
+                    muldiv_lst[i] /= muldiv_lst[i + 1];
+                } else {
+                    printf("Error: Division by zero!\n");
+                    return 0;
+                }
+            }
+            // Shift elements
+            for (int j = i + 1; j < num_count - 1; j++) {
+                muldiv_lst[j] = muldiv_lst[j + 1];
+            }
+            num_count--;
+            for (int j = i; j < op_count - 1; j++) {
+                operators[j] = operators[j + 1];
+            }
+            op_count--;
+            i--; // recheck same position
+        }
+    }
+    
+    // Handle addition and subtraction
+    double result = muldiv_lst[0];
+    for (int i = 0; i < op_count; i++) {
+        if (operators[i] == '+') {
+            result += muldiv_lst[i + 1];
+        } else if (operators[i] == '-') {
+            result -= muldiv_lst[i + 1];
+        }
+    }
+    
+    // Time end
+    clock_t end = clock();
+    double time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Result: %f\n", result);
+    printf("Time: %f seconds\n", time_taken);
+    return result;
+}
 
+// Callback function for the button click
 void on_calculate_button_clicked(GtkWidget *widget, gpointer data) {
     const char *expression = gtk_entry_get_text(GTK_ENTRY(data));
     double result = calculate(expression);
