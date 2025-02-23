@@ -52,7 +52,7 @@ double calculate(const char *equation) {
                 if (numbers[i + 1] != 0) {
                     numbers[i] /= numbers[i + 1];
                 } else {
-                    printf("Error: Division by zero!\n");
+                    printf("Error: Division by zero! Don't break my code you stupid battlenigth27!!\n");
                     return 0;
                 }
             }
